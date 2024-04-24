@@ -15,6 +15,12 @@ library(sf)
 ```
 
 ```{r}
+land_use <- st_read("D:/Spatial_Optimization/Final/data/Land_Use.geojson")
+zoning <- st_read("D:/Spatial_Optimization/Final/data/Zoning_BaseDistricts.geojson")
+property <- read.csv("D:/Spatial_Optimization/Final/data/property.csv")
+```
 
+```{r}
+vacant_land <- landuse
 ```
 
