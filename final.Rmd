@@ -1,0 +1,20 @@
+---
+title: "Locating Affordable Housing"
+author: "Frank Chen"
+date: "2024-04-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load packages}
+library(tidyverse)
+library(sf)
+```
+
+```{r}
+
+```
+
