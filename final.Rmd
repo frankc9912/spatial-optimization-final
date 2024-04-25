@@ -76,8 +76,52 @@ parcels_RM <- parcels %>%
 
 final_parcels <- rbind(parcels_RSD, parcels_RSA, parcels_RM)
 
-final_parcels %>% 
-  dplyr::select(market_value, units, geometry) %>% 
-  st_write("D:/Spatial_Optimization/Final/data/parcels.shp")
+# final_parcels %>% 
+#   dplyr::select(market_value, units, geometry) %>% 
+#   st_write("D:/Spatial_Optimization/Final/data/parcels.shp")
+
+# final_parcels %>% 
+#   dplyr::select(market_value, units, geometry) %>% 
+#   st_centroid() %>% 
+#   st_write("D:/Spatial_Optimization/Final/data/parcels_nodes.shp")
+```
+
+```{r job}
+low_income_jobs <- read.csv("D:/Spatial_Optimization/Final/data/pa_wac_SE01_JT03_2021.csv") %>% 
+  filter(str_starts(w_geocode, "42101")) %>% 
+  dplyr::select(w_geocode, CE01) %>% 
+  rename(GEOID = w_geocode)
+
+blocks <- st_read("D:/Spatial_Optimization/Final/data/tl_2023_42_tabblock20.shp") %>% 
+  filter(str_starts(GEOID20, "42101")) %>% 
+  dplyr::select(GEOID20, geometry) %>% 
+  rename(GEOID = GEOID20) %>% 
+  mutate(GEOID = as.numeric(GEOID)) %>% 
+  st_transform("ESRI:102728")
+
+jobs <- left_join(blocks, low_income_jobs, by = "GEOID")
+
+# jobs %>% st_write("D:/Spatial_Optimization/Final/data/jobs.shp")
+
+sum(low_income_jobs$CE01)
+sum(jobs$CE01, na.rm = T)
+```
+
+```{r public transit}
+bus_stops <- st_read("D:/Spatial_Optimization/Final/data/Bus_Stops_(Spring_2024).geojson") %>% 
+  st_transform("ESRI:102728") %>% 
+  dplyr::select(FID, geometry)
+
+rail_stations <- st_read("D:/Spatial_Optimization/Final/data/Regional_Rail_Stations.geojson") %>% 
+  st_transform("ESRI:102728") %>% 
+  dplyr::select(FID, geometry)
+
+street <- st_read("D:/Spatial_Optimization/Final/data/Street_Centerline.geojson") %>% 
+  st_transform("ESRI:102728") %>% 
+  dplyr::select(geometry)
+
+# bus_stops %>% st_write("D:/Spatial_Optimization/Final/data/bus_stops.shp")
+# rail_stations %>% st_write("D:/Spatial_Optimization/Final/data/rail_stations.shp")
+# street %>% st_write("D:/Spatial_Optimization/Final/data/street.shp")
 ```
 
