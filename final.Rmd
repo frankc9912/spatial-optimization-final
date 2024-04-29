@@ -26,6 +26,8 @@ zoning_regulation <- read.csv("D:/Spatial_Optimization/Final/data/zoning.csv")
 vacant_land <- land_use %>% 
   filter(C_DIG2 == 91)
 
+st_write(city_owned, "D:/Spatial_Optimization/Final/data/city_owned.shp")
+
 r_area <- zoning %>% 
   filter(ZONINGGROUP == "Residential/Residential Mixed-Use")
 
@@ -123,5 +125,25 @@ street <- st_read("D:/Spatial_Optimization/Final/data/Street_Centerline.geojson"
 # bus_stops %>% st_write("D:/Spatial_Optimization/Final/data/bus_stops.shp")
 # rail_stations %>% st_write("D:/Spatial_Optimization/Final/data/rail_stations.shp")
 # street %>% st_write("D:/Spatial_Optimization/Final/data/street.shp")
+```
+
+```{r}
+parcels_bus <- st_read("D:/Spatial_Optimization/Final/data/parcels_bus.shp")
+
+parcels_bus_buffer <- parcels_bus %>%
+  st_buffer(dist = units::set_units(0.25, "mi")) %>% 
+  group_by(FacilityID) %>% 
+  summarise()
+
+# st_write(parcels_bus_buffer, "D:/Spatial_Optimization/Final/data/parcels_bus_buffer.shp")
+
+parcels_rail <- st_read("D:/Spatial_Optimization/Final/data/parcels_rail.shp")
+
+parcels_rail_buffer <- parcels_rail %>%
+  st_buffer(dist = units::set_units(0.5, "mi")) %>% 
+  group_by(FacilityID) %>% 
+  summarise()
+
+# st_write(parcels_rail_buffer, "D:/Spatial_Optimization/Final/data/parcels_rail_buffer.shp")
 ```
 
